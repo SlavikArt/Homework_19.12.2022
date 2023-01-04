@@ -1,6 +1,6 @@
 
 # Homework_19.12.2022
-Д/з: Д/з: MyString
+Д/з: MyString
 
 <a href="https://gist.github.com/SlavikArt/d3076d7b74762adc49bd5a8a9ff7a43a">Gist - страница со всеми кодами проектов</a>
 
