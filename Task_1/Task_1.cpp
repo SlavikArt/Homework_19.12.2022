@@ -6,13 +6,15 @@ class MyString
 private:
     char* str;
     int length;
+
+    static unsigned int createdObjects;
 public:
     MyString();
     MyString(unsigned int len);
     MyString(const char* s);
     ~MyString();
 
-    void Init();
+    void Init(const char* s);
     void Init(const MyString& obj);
     void Print();
 
@@ -27,6 +29,8 @@ public:
 
     char* GetStr();
     int Getlength();
+
+    static void InfoAboutObjects();
 };
 
 MyString::MyString()
@@ -38,6 +42,8 @@ MyString::MyString()
     {
         str[i] = ' ';
     }
+
+    ++createdObjects;
 }
 
 MyString::MyString(unsigned int len)
@@ -49,6 +55,8 @@ MyString::MyString(unsigned int len)
     {
         str[i] = ' ';
     }
+
+    ++createdObjects;
 }
 
 MyString::MyString(const char* s)
@@ -64,6 +72,8 @@ MyString::MyString(const char* s)
     {
         str[i] = s[i];
     }
+
+    ++createdObjects;
 }
 
 MyString::~MyString()
@@ -71,9 +81,14 @@ MyString::~MyString()
     delete[] str;
 }
 
-void MyString::Init()
+void MyString::Init(const char* s)
 {
-    // init
+    delete[] str;
+
+    length = strlen(s);
+
+    this->str = new char[length + 1];
+    strcpy_s(this->str, length + 1, s);
 }
 
 void MyString::Init(const MyString& obj)
@@ -228,6 +243,12 @@ int MyString::Getlength()
     return length;
 }
 
+void MyString::InfoAboutObjects()
+{
+    cout << "Created objects: " << MyString::createdObjects << "\n";
+}
+
+unsigned int MyString::createdObjects = 0U;
 
 int main()
 {
@@ -299,5 +320,7 @@ int main()
     obj1.Print();
     obj2.Print();
     
-    cout << "\n" << obj1.MyStrCmp(obj2) << "\n";
+    cout << "\n" << obj1.MyStrCmp(obj2) << "\n\n";
+
+    MyString::InfoAboutObjects();
 }
