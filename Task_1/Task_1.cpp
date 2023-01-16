@@ -79,6 +79,7 @@ MyString::MyString(const char* s)
 MyString::~MyString()
 {
     delete[] str;
+    --createdObjects;
 }
 
 void MyString::Init(const char* s)
