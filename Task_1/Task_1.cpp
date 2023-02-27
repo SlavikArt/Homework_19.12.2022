@@ -12,6 +12,8 @@ public:
     MyString();
     MyString(unsigned int len);
     MyString(const char* s);
+    MyString(const MyString& obj);
+    MyString(MyString&& obj);
     ~MyString();
 
     void Init(const char* s);
@@ -29,6 +31,9 @@ public:
 
     char* GetStr();
     int Getlength();
+
+    MyString& operator=(const MyString& obj);
+    MyString& operator=(MyString&& obj);
 
     static void InfoAboutObjects();
 };
@@ -74,6 +79,32 @@ MyString::MyString(const char* s)
     }
 
     ++createdObjects;
+}
+
+MyString::MyString(const MyString& obj)
+{
+    if (str != nullptr)
+        delete[] str;
+
+    length = obj.length;
+    str = new char[length + 1];
+
+    for (int i = 0; i <= length; i++)
+    {
+        str[i] = obj.str[i];
+    }
+}
+
+MyString::MyString(MyString&& obj)
+{
+    if (str != nullptr)
+        delete[] str;
+
+    length = obj.length;
+    str = obj.str;
+
+    obj.length = 0;
+    obj.str = nullptr;
 }
 
 MyString::~MyString()
@@ -244,6 +275,40 @@ int MyString::Getlength()
     return length;
 }
 
+MyString& MyString::operator=(const MyString& obj)
+{
+    if (this != &obj)
+    {
+        if (str != nullptr)
+            delete[] str;
+
+        length = obj.length;
+        str = new char[length + 1];
+
+        for (int i = 0; i <= length; i++)
+        {
+            str[i] = obj.str[i];
+        }
+    }
+    return *this;
+}
+
+MyString& MyString::operator=(MyString&& obj)
+{
+    if (this != &obj)
+    {
+        if (str != nullptr)
+            delete[] str;
+
+        length = obj.length;
+        str = obj.str;
+
+        obj.length = 0;
+        obj.str = nullptr;
+    }
+    return *this;
+}
+
 void MyString::InfoAboutObjects()
 {
     cout << "Created objects: " << MyString::createdObjects << "\n";
@@ -322,6 +387,20 @@ int main()
     obj2.Print();
     
     cout << "\n" << obj1.MyStrCmp(obj2) << "\n\n";
+
+    cout << "String1 and String2:" << "\n";
+
+    obj1.Print();
+    obj2.Print();
+
+    obj1 = obj2;
+
+    cout << "\nString1 = String2:" << "\n";
+
+    obj1.Print();
+    obj2.Print();
+
+    cout << "\n";
 
     MyString::InfoAboutObjects();
 }
