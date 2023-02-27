@@ -97,9 +97,6 @@ MyString::MyString(const MyString& obj)
 
 MyString::MyString(MyString&& obj)
 {
-    if (str != nullptr)
-        delete[] str;
-
     length = obj.length;
     str = obj.str;
 
