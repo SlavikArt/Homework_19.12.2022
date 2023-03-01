@@ -12,6 +12,7 @@ public:
     MyString();
     MyString(unsigned int len);
     MyString(const char* s);
+    MyString(const initializer_list<char>& list);
     MyString(const MyString& obj);
     MyString(MyString&& obj);
     ~MyString();
@@ -41,12 +42,13 @@ public:
 MyString::MyString()
 {
     length = 80;
-    str = new char[length];
+    str = new char[length + 1];
 
     for (int i = 0; i < length; i++)
     {
         str[i] = ' ';
     }
+    str[length] = '\0';
 
     ++createdObjects;
 }
@@ -77,6 +79,23 @@ MyString::MyString(const char* s)
     {
         str[i] = s[i];
     }
+    str[length] = '\0';
+
+    ++createdObjects;
+}
+
+MyString::MyString(const initializer_list<char>& list) 
+{
+    length = list.size();
+    str = new char[length + 1];
+
+    int i = 0;
+    for (auto element: list)
+    {
+        str[i] = element;
+        i++;
+    }
+    str[length] = '\0';
 
     ++createdObjects;
 }
@@ -396,6 +415,12 @@ int main()
 
     obj1.Print();
     obj2.Print();
+
+    cout << "\nMyString obj{'A', 'L', 'E', 'X'};\n";
+
+    MyString obj{ 'A', 'L', 'E', 'X' };
+
+    obj.Print();
 
     cout << "\n";
 
